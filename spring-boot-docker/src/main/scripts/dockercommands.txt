@@ -1,0 +1,23 @@
+docker run --name mysqldb -p 3306:3306 -e MYSQL_DATABASE=pageviewservice -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v /home/lucasdaniel/dockerdata/mysql:/etc/mysql/conf.d  -d mysql:5.7
+
+docker run -d -p 15672:15672 -p 5672:5672 --name myrabbitmq rabbitmq:3-management
+
+
+## basic way to run
+## docker run --name spring-mysql -v /home/lucasdaniel/dockerdata/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=root -d mysql
+
+
+docker run --name pageviewservice -p 8081:8081 \
+--link myrabbitmq:myrabbitmq \
+--link mysqldb:mysqldb \
+-e SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/pageviewservice \
+-e SPRING_PROFILES_ACTIVE=mysql \
+-e SPRING_RABBITMQ_HOST=myrabbitmq \
+llucasdaniel/pageviewservice
+
+
+
+
+
+# Example MVN command for CI
+mvn clean package docker:build verify docker:push
