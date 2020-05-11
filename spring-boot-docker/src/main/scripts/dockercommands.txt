@@ -20,4 +20,4 @@ llucasdaniel/pageviewservice
 
 
 # Example MVN command for CI
-mvn clean package docker:build verify docker:push
+mvn clean package verify docker:push
