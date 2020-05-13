@@ -17,7 +17,14 @@ llucasdaniel/pageviewservice
 
 
 
-
+#stop all containers before remove images
+docker stop $(docker ps -a -q)
+#remove all containers if you want
+docker rm $(docker ps -a -q)
+#remove all images
+docker rmi $(docker images -q)
+#remove all volumes if you want
+docker volume rm $(docker volume ls -q)
 
 # Example MVN command for CI
 mvn clean package verify docker:push
